@@ -1,0 +1,21 @@
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="{{ site.url }}">宅首围</a>
+        </div>
+
+        <div class="navbar-collapse">
+            <ul class="navbar-nav navbar-right">
+                <li>
+                    <a href="{{ site.url }}">首页</a>
+                </li>
+                {% for page in site.pages %}
+                {% if page.title %}
+                <li><a href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</nav>

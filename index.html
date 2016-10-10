@@ -1,0 +1,38 @@
+--- 
+layout: page
+description: 做一条有逼格的程序狗
+---
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      
+      <ul>
+        {% for post in site.posts %}
+        <li class="post-list-item">
+
+          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
+            <h2 class="post-title">
+                  {{ post.title | escape }}
+            </h2>
+
+            <p class="post-meta">{{ post.date | date: "%Y-%m-%d" }}</p>
+
+            {% if post.excerpt %}
+              <div class="post-excerpt">{{ post.excerpt }}</div>
+            {% endif %}
+
+          </a>
+          
+          
+          <!--<span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>-->
+          
+
+          <hr>
+
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,133 @@
+body {
+    font-size: 16px;
+    color: #404040;
+    overflow-x: hidden;
+}
+
+p {
+    line-height: 1.5;
+    margin: 30px 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: bold;
+}
+
+a {
+    outline: none;
+    text-decoration: none;
+    color: $a_normal;
+}
+
+a:hover,
+a:focus {
+    // color: #0085a1;
+    color: $a_hover;
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none;
+}
+
+article {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin-top: 60px;
+    }
+}
+
+blockquote {
+    color: #808080;
+    font-style: italic;
+    p {
+        margin: 0;
+    }
+}
+
+hr {
+    border-color: #aaaaaa;
+    margin-bottom: 0;
+}
+
+.intro-header {
+    background: no-repeat center center;
+    background-color: $header_bg;
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    background-size: cover;
+    // background-size: cover;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 50px;
+    .site-heading {
+        padding: 150px 0;
+        color: white;
+        text-align: center;
+        h1 {
+            margin-top: 0px;
+            font-size: 80px;
+        }
+        .small {
+            max-width: 100px;
+            margin: 15px auto;
+            border-width: 4px;
+            border-color: white;
+        }
+        .subheading {
+            font-size: 25px;
+        }
+    }
+
+}
+
+.post-list-item {
+    .post-link {
+        color: $post_title;
+        &:hover {
+            color: $a_normal;
+        }
+        &:active {
+            color: $a_hover;
+        }
+        .post-excerpt {
+            color: $post_title;
+            margin: 10px 0;
+            p {
+                margin: 0;
+            }
+        }
+    }
+    .post-meta {
+        color: $post_normal;
+        margin: 10px 0;
+    }
+}
+
+#goTop {
+    position: fixed;
+    right: 100px;
+    bottom: 100px;
+    color: #404040;
+    visibility: hidden;
+    opacity: 0;
+    &:hover{
+        color: $a_normal;
+    }
+    &.show {
+        opacity: 1;
+        visibility: visible;
+    }
+    transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -webkit-transition: all 0.3s linear;
+}

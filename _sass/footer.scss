@@ -1,0 +1,17 @@
+footer {
+    padding: 50px 0;
+    a {
+        color: #404040;
+    }
+    a:hover,
+    a:focus {
+        color: $a_normal;
+        text-decoration: none;
+    }
+    .copyright {
+        font-size: 14px;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 0;
+    }
+}

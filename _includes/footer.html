@@ -1,0 +1,41 @@
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="https://github.com/{{ site.github_username }}">
+                            <span class="fa fa-stack fa-2x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://weibo.com/{{ site.weibo_username }}">
+                            <span class="fa-stack fa-2x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.zhihu.com/people/{{ site.zhihu_username }}">
+                            <span class="fa fa-stack fa-2x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-zhihu fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+
+                <p class="copyright text-muted">Copyright &copy;
+                    <a href="{{ site.baseurl }}">{{ site.copyright_name }}</a> {{ site.time | date: '%Y' }} • All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<!--<script src="{{ site.url }}/assets/js/bootstrap.min.js"></script>-->
+<script src="{{ site.url }}/assets/js/blog.js"></script>
