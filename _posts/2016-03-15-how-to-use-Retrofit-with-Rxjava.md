@@ -10,6 +10,9 @@ tags:
 - Retrofit
 ---
 
+* TOC
+{:toc}
+
 ## 前言
 
 RxJava和Retrofit也火了一段时间了，不过最近一直在学习ReactNative和Node相关的姿势，一直没有时间研究这些新东西，最近有个项目准备写，打算先用Android写一个Demo出来，却发现Android的世界发生了天翻地覆的变化，EventBus和OKHttp啥的都不见了，RxJava和Retrofit是什么鬼？
@@ -60,7 +63,8 @@ dependencies {
  ![目录结构](http://ww2.sinaimg.cn/large/75ddb715gw1f1qpfv65nnj20a80l5abe.jpg)
 
 **activity_main.xml**的代码如下：
-```
+
+```xml
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -90,6 +94,7 @@ dependencies {
 ```
 
 **MainActivity.java**的代码如下：
+
 ```java
 package com.queen.rxjavaretrofitdemo.activity;
 
@@ -131,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 注意不要忘记加网络权限
+
 ```xml
 <uses-permission android:name="android.permission.INTERNET"/>
 ```
@@ -140,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
 我们准备在**getMovie**方法中进行网络请求，我们先来看看只使用**Retrofit**是如何进行的。
 
 我们使用豆瓣电影的Top250做测试连接，目标地址为
+
 >https://api.douban.com/v2/movie/top250?start=0&count=10
 
 至于返回的数据格式，大家自己访问下链接就看到了，太长就不放进来了。
@@ -147,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
 首先我们要根据返回的结果封装一个Entity，暂命名为**MovieEntity**，代码就不贴了。
 
 接下来我们要创建一个接口取名为**MovieService**，代码如下：
+
 ```java
 public interface MovieService {
     @GET("top250")
@@ -155,6 +163,7 @@ public interface MovieService {
 ```
 
 回到**MainActivity**之中，我们来写**getMovie**方法的代码
+
 ```java
 //进行网络请求
 private void getMovie(){
@@ -180,6 +189,7 @@ private void getMovie(){
     });
 }
 ```
+
 以上为没有经过封装的、原生态的Retrofit写网络请求的代码。
 我们可以封装创建Retrofit和service部分的代码，然后Activity用创建一个Callback作为参数给Call，这样Activity中只关注请求的结果，而且Call有cancel方法可以取消一个请求，好像没Rxjava什么事了，我觉得可以写到这就下班了~
 
@@ -193,6 +203,7 @@ private void getMovie(){
 	"data": {}
 }
 ```
+
 我们如何对返回结果进行一个统一的处理呢？
 
 另外，我的ProgressDialog的show方法应该在哪调用呢？看样子只能在getMovie()这个方法里面调用了，换个地方发出请求就要在对应的Listener里面写一遍show()的代码，其实挺闹心。
@@ -202,6 +213,7 @@ private void getMovie(){
 我们先来看结合了Rxjava之后，事情有没有变化的可能。当然即便是不用Rxjava，依旧能够做很多的封装，只是比较麻烦。
 
 如需查看项目代码 --> 代码地址:
+
 > https://github.com/tough1985/RxjavaRetrofitDemo
 
 选择Tag -> step1
@@ -215,6 +227,7 @@ Retrofit本身对Rxjava提供了支持。
 当然我们已经添加过了。
 
 然后在创建Retrofit的过程中添加如下代码：
+
 ```java
 Retrofit retrofit = new Retrofit.Builder()
         .baseUrl(baseUrl)
@@ -226,6 +239,7 @@ Retrofit retrofit = new Retrofit.Builder()
 这样一来我们定义的service返回值就不在是一个**Call**了，而是一个**Observable**
 
 重新定义**MovieService**
+
 ```java
 public interface MovieService {
     @GET("top250")
@@ -234,6 +248,7 @@ public interface MovieService {
 ```
 
 **getMovie**方法改为：
+
 ```java
 //进行网络请求
 private void getMovie(){
@@ -275,6 +290,7 @@ private void getMovie(){
 
 
 如需查看项目代码 --> 代码地址:
+
 > https://github.com/tough1985/RxjavaRetrofitDemo
 
 选择Tag -> step2
@@ -282,6 +298,7 @@ private void getMovie(){
 ### 1.4 将请求过程进行封装
 
 创建一个对象**HttpMethods**
+
 ```java
 public class HttpMethods {
 
@@ -333,10 +350,12 @@ public class HttpMethods {
     }
 }
 ```
+
 用一个单例来封装该对象，在构造方法中创建Retrofit和对应的Service。
 如果需要访问不同的基地址，那么你可能需要创建多个Retrofit对象，或者干脆根据不同的基地址封装不同的HttpMethod类。
 
 我们回头再来看MainActivity中的**getMovie**方法：
+
 ```java
 private void getMovie(){
      subscriber = new Subscriber<MovieEntity>() {
@@ -358,9 +377,11 @@ private void getMovie(){
      HttpMethods.getInstance().getTopMovie(subscriber, 0, 10);
 }        
 ```
+
 其中subscriber是MainActivity的成员变量。
 
 如需查看项目代码 --> 代码地址:
+
 > https://github.com/tough1985/RxjavaRetrofitDemo
 
 选择Tag -> step3
@@ -373,6 +394,7 @@ private void getMovie(){
 
 这个段落我们来聊一下有些Http服务返回一个固定格式的数据的问题。
 例如：
+
 ```json
 {
 	"resultCode": 0,
@@ -380,12 +402,14 @@ private void getMovie(){
 	"data": {}
 }
 ```
+
 大部分的Http服务可能都是这样设置，resultCode和resultMessage的内容相对比较稳定，而data的内容变化多端，72变都不一定够变的，有可能是个User对象，也有可能是个订单对象，还有可能是个订单列表。
 按照我们之前的用法，使用Gson转型需要我们在创建subscriber对象是指定返回值类型，如果我们对不同的返回值进行封装的话，那可能就要有上百个Entity了，看着明明是很清晰的结构，却因为data的不确定性无奈了起来。
 
 少年，不必烦恼，来来来~ 老衲赐你宝典葵花，老衲就是练了这个才出家。。。
 
 我们可以创建一个HttpResult类
+
 ```java
 public class HttpResult<T> {
     private int resultCode;
@@ -396,12 +420,15 @@ public class HttpResult<T> {
 ```
 
 如果data是一个User对象的话。那么在定义Service方法的返回值就可以写为
+
 ```java
 Observable<HttpResult<User>>
 ```
+
 这样一来HttpResult就相当于一个包装类，将结果包装了起来，但是在使用的时候要给出一个明确的类型。
 
 在上面的示例中，我也创建了一个HttpResult类，用来模仿这个形式，将其中的Subject单独封装了起来。
+
 ```java
 public class HttpResult<T> {
     
@@ -417,11 +444,13 @@ public class HttpResult<T> {
 ```
 
 这样泛型的时候就要写为：
+
 ```java
 Observable<HttpResult<List<Subject>>>
 ```
 
 如需查看项目代码 --> 代码地址:
+
 > https://github.com/tough1985/RxjavaRetrofitDemo
 
 选择Tag -> step4
@@ -431,6 +460,7 @@ Observable<HttpResult<List<Subject>>>
 既然我们有了相同的返回格式，那么我们可能就需要在获得数据之后进行一个统一的预处理。
 
 当接收到了一个Http请求结果之后，由于返回的结构统一为
+
 ```json
 {
 	"resultCode": 0,
@@ -450,6 +480,7 @@ Activity或Fragment对**resultCode**和**resultMessage**基本没有兴趣，他
 使用Observable的map方法可以完成这一功能。
 
 在**HttpMethods**中创建一个内部类**HttpResultFunc**，代码如下：
+
 ```java
 /**
  * 用来统一处理Http的resultCode,并将HttpResult的Data部分剥离出来返回给subscriber
@@ -487,6 +518,7 @@ public void getTopMovie(Subscriber<List<Subject>> subscriber, int start, int cou
 这样我们只需要关注Data数据的类型，而不必在关心整个过程了。
 
 需要注意一点，就是在定义Service的时候，泛型是
+
 ```java
 HttpResult<User>
 //or
@@ -494,6 +526,7 @@ HttpResult<List<Subject>>
 ```
 
 而在定义Subscriber的时候泛型是
+
 ```java
 User
 //or
@@ -502,6 +535,7 @@ List<Subject>
 不然你会得到一个转型错误。
 
 如需查看项目代码 --> 代码地址:
+
 > https://github.com/tough1985/RxjavaRetrofitDemo
 
 选择Tag -> step5
@@ -517,6 +551,7 @@ List<Subject>
 
 好在Retrofit已经帮我们考虑到了这一点。
 答案在RxJavaCallAdapterFactory这个类的源码中可以找到
+
 ```java
 static final class CallOnSubscribe<T> implements Observable.OnSubscribe<Response<T>> {
   private final Call<T> originalCall;
@@ -557,11 +592,13 @@ static final class CallOnSubscribe<T> implements Observable.OnSubscribe<Response
 ```
 
 我们看到call方法中，给subscriber添加了一个Subscription对象，Subscription对象很简单，主要就是取消订阅用的，如果你查看Subscriptions.create的源码，发现是这样的
+
 ```java
 public static Subscription create(final Action0 unsubscribe) {
 	 return BooleanSubscription.create(unsubscribe);
 }
 ```
+
 利用了一个BooleanSubscription类来创建一个Subscription，如果你点进去看BooleanSubscription.create方法一切就清晰了，当接触绑定的时候，subscriber会调用Subscription的unsubscribe方法，然后触发创建Subscription时候的传递进来的Action0的call方法。RxJavaCallAdapterFactory帮我们给subscriber添加的是call.cancel()，
 
 总结起来就是说，我们在Activity或者Fragment中创建subscriber对象，想要取消请求的时候调用subscriber的unsubscribe方法就可以了。
@@ -575,6 +612,7 @@ public static Subscription create(final Action0 unsubscribe) {
 这样我们就把注意力放到了Observer，Observer本身是一个接口，他的特性是不管你怎么用，都不会解绑，为什么呢？因为他没有解绑的方法。所以就达到了复用的效果，一开始我一直美滋滋的用Observer。事实上，如果你用的是Observer，在调用Observable对象的subscribe方法的时候，会自动的将Observer对象转换成Subscriber对象。
 
 下面是源码：
+
 ```java
 public final Subscription subscribe(final Observer<? super T> observer) {
     if (observer instanceof Subscriber) {
@@ -602,7 +640,9 @@ public final Subscription subscribe(final Observer<? super T> observer) {
 ```
 
 后来发现了问题，
+
 >问题1 无法取消，因为Observer没有unsubscribe方法
+
 >问题2 没有onStart方法 这个一会聊
 
 这两个问题是很痛苦的。所以，为了后面更好的高潮，我们还是选择用Subscriber。
@@ -622,7 +662,9 @@ Subscriber给我们提供了onStart、onNext、onError、onCompleted四个方法
 **onComplated**方法里面停止ProgressDialog
 
 其中我们需要解决两个问题
+
 > 问题1 onNext的处理
+
 > 问题2 cancel掉一个ProgressDialog的时候取消请求
 
 我们先来解决问题1
@@ -672,11 +714,13 @@ public class ProgressSubscriber<T> extends Subscriber<T> {
     }
 }
 ```
+
 我知道传Context不好，不过为了演示而已，大家可以自己封装一下Toast。
 
 MainActivity使用是这样的：
 
 先来定义一个SubscriberOnNextListener对象，可以在onCreate里面创建这个对象
+
 ```java
 private SubscriberOnNextListener getTopMovieOnNext;
 
@@ -708,6 +752,7 @@ private void getMovie(){
 这样Activity或Fragment就只需要关注拿到结果之后的逻辑了，其他的完全不用操心。
 
 如需查看项目代码 --> 代码地址:
+
 > https://github.com/tough1985/RxjavaRetrofitDemo
 
 选择Tag -> step6
@@ -735,6 +780,7 @@ public void onCancelProgress() {
 ```
 
 然后我用了一个Handler来封装了ProgressDialog。
+
 ```java
 public class ProgressDialogHandler extends Handler {
 
@@ -903,6 +949,7 @@ private void toSubscribe(Observable o, Subscriber s){
 ## 最后的最后
 
 如果你的httpResult格式本身没有问题，但是data中的内容是这样的：
+
 ```json
 {
 	"resultCode": 0,

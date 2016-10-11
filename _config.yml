@@ -27,6 +27,9 @@ header-img: assets/img/home-bg3.jpg
 
 # Build settings
 markdown: kramdown
+kramdown:
+   input:  GFM
+   math_engine: mathjax
 # theme: minima
 
 # Jekyll
