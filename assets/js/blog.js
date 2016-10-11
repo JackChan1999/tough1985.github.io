@@ -1,8 +1,12 @@
 $(document).ready(function() {
-    var MQL = 1170;
+    // var MQL = 1170;
+    var MQL = 768;
+    // var windowWidth = $(window).width();
 
     var headerHeight = $('header').height();
-    console.log('headerHeight = ' + headerHeight);
+    // console.log('headerHeight = ' + headerHeight);
+
+    
 
     if ($(window).width() > MQL) {
         var navbarHeight = $('.navbar-custom').height();
@@ -12,8 +16,8 @@ $(document).ready(function() {
         function() {
             var currentTop = $(window).scrollTop();
 
-            console.log('previousTop', this.previousTop);
-            console.log('currentTop', currentTop);
+            // console.log('previousTop', this.previousTop);
+            // console.log('currentTop', currentTop);
 
             if(currentTop < this.previousTop) {
                 //向上滚动

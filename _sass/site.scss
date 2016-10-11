@@ -70,12 +70,13 @@ hr {
     margin-right: 0;
     margin-bottom: 50px;
     .site-heading {
-        padding: 150px 0;
+        // padding: 150px 0;
+        padding: 100px 0 50px 0;
         color: white;
         text-align: center;
         h1 {
             margin-top: 0px;
-            font-size: 80px;
+            font-size: 40px;
         }
         .small {
             max-width: 100px;
@@ -86,8 +87,26 @@ hr {
         .subheading {
             font-size: 25px;
         }
+        ul {
+            margin-top: 20px;
+        }
+        li {
+            display: inline;
+            font-size: 20px;
+            margin: 10px;
+        }
     }
+}
 
+@media only screen and (min-width: 768px) {
+    .intro-header {
+        .site-heading {
+            h1 {
+                margin-top: 0px;
+                font-size: 70px;
+            }
+        }
+    }
 }
 
 .post-list-item {
@@ -115,19 +134,42 @@ hr {
 
 #goTop {
     position: fixed;
-    right: 100px;
-    bottom: 100px;
+    right: 2%;
+    bottom: 5%;
+    // right: 14.4em;
+    // bottom: 14.4em;
     color: #404040;
     visibility: hidden;
     opacity: 0;
     &:hover{
         color: $a_normal;
     }
-    &.show {
-        opacity: 1;
-        visibility: visible;
-    }
     transition: all 0.3s linear;
     -moz-transition: all 0.3s linear;
     -webkit-transition: all 0.3s linear;
 }
+
+@media only screen and (min-width: 768px) {
+    #goTop {
+        position: fixed;
+        right: 2%;
+        
+        &.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    #goTop {
+        position: fixed;
+        right: 5%;
+        
+        &.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
