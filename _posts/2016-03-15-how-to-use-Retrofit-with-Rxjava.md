@@ -60,8 +60,7 @@ dependencies {
  ![目录结构](http://ww2.sinaimg.cn/large/75ddb715gw1f1qpfv65nnj20a80l5abe.jpg)
 
 **activity_main.xml**的代码如下：
-```xml
-<?xml version="1.0" encoding="utf-8"?>
+```
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
