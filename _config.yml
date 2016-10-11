@@ -26,7 +26,7 @@ copyright_name: 宅首围
 header-img: assets/img/home-bg3.jpg
 
 # Build settings
-# markdown: kramdown
+markdown: kramdown
 # theme: minima
 
 # Jekyll
