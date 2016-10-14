@@ -25,6 +25,9 @@ weibo_username:  zhaishouwei
 copyright_name: 宅首围
 header-img: assets/img/home-bg3.jpg
 
+# 分页-每页数量
+paginate: 5
+
 # Build settings
 markdown: kramdown
 kramdown:

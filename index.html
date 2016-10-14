@@ -6,9 +6,8 @@ description: 做一条有逼格的程序狗
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      
       <ul>
-        {% for post in site.posts %}
+        {% for post in paginator.posts %}
         <li class="post-list-item">
 
           <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
@@ -23,16 +22,27 @@ description: 做一条有逼格的程序狗
             {% endif %}
 
           </a>
-          
-          
           <!--<span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>-->
-          
-
           <hr>
-
         </li>
         {% endfor %}
       </ul>
+
+      {% if paginator.total_pages > 1%}
+      <ul class="pager">
+        {% if paginator.previous_page %}
+        <li class="previous">
+          <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/'}}">上一页</a>
+        </li>
+        {% endif %}
+
+        {% if paginator.next_page %}
+        <li class="next">
+          <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/'}}">下一页</a>
+        </li>
+        {% endif %}
+      </ul>
+      {% endif %}
     </div>
   </div>
 </div>
