@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: 宅首围
+title: 阿，希爸
 email: 66903041@qq.com
 description: > # 做一条有逼格的程序狗
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -22,7 +22,7 @@ url: "https://tough1985.github.io" # the base hostname & protocol for your site
 zhihu_username: liu-kun-66-25
 github_username:  tough1985
 weibo_username:  zhaishouwei
-copyright_name: 宅首围
+copyright_name: 阿，希爸
 header-img: assets/img/home-bg3.jpg
 
 # 分页-每页数量
